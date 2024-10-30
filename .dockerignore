@@ -1,0 +1,17 @@
+envsettings.ps1
+envsettings.ps1.template
+compose.yml
+build.ps1
+azure-pipelines.yml
+.gitignore
+.drone.yml
+.helpers.ps1
+LICENSE
+readme.md
+serviceaccount/*
+Dockerfile
+Dockerfile.debug
+Dockerfile.aarch64
+Dockerfile.armhf
+Dockerfile.debian
+Dockerfile.local
