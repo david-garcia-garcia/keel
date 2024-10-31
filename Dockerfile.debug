@@ -23,7 +23,7 @@ COPY --from=0 /go/bin/keel /bin/keel
 COPY --from=1 /app/dist /www
 COPY --from=0 /go/bin/dlv /
 #ENTRYPOINT ["/bin/keel"]
-CMD ["/dlv", "--listen=:40000", "--headless=true", "--api-version=2", "--accept-multiclient", "exec", "/bin/keel"]
+ENTRYPOINT ["/dlv", "--listen=:40000", "--headless=true", "--api-version=2", "--accept-multiclient", "exec", "/bin/keel"]
 
 EXPOSE 9300
 EXPOSE 40000
