@@ -16,14 +16,14 @@ variables:
   vmImage: 'ubuntu-latest'
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build
   jobs:
   - job: Build
     timeoutInMinutes: 120
     displayName: Build
     pool:
-      vmImage: ubuntu-latest
-      name: Azure Pipelines
+      vmImage: $(vmImageName)
+      name: Test-Rafael
     steps:
     - pwsh: .\build.ps1
       name: build_images
@@ -33,7 +33,6 @@ stages:
         REGISTRY_PWD: $(REGISTRY_PWD)
         REGISTRY_PATH: $(REGISTRY_PATH)
         IMAGE_VERSION: $(Build.SourceBranchName)
-        BUILD_TEMP: $(Agent.TempDirectory)
     - pwsh: .\build.ps1 -Push
       name: push_containers
       displayName: 'Push images'
@@ -44,4 +43,3 @@ stages:
         REGISTRY_PWD: $(REGISTRY_PWD)
         REGISTRY_PATH: $(REGISTRY_PATH)
         IMAGE_VERSION: $(Build.SourceBranchName)
-        BUILD_TEMP: $(Agent.TempDirectory)
