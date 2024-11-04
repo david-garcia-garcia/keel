@@ -2,7 +2,7 @@ name: Release Charts
 on:
   push:
     tags:
-      - "*chart"
+      - "VC*"
 jobs:
   release:
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
