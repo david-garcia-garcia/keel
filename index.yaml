@@ -1,5 +1,27 @@
 apiVersion: v1
 entries:
+  keel-chart:
+  - apiVersion: v1
+    appVersion: 0.19.1
+    created: "2024-11-04T14:38:24.475439585Z"
+    description: Open source, tool for automating Kubernetes deployment updates. This
+      is a custom fork of the original Keel project.
+    digest: 9f7cf0bb590dceee3395ac39acb5dafe231a6e0d6041a8539583b7c60e8f03ae
+    home: https://clem59170.github.io/keel
+    icon: https://raw.githubusercontent.com/keel-hq/keel/master/static/keel-logo.png
+    keywords:
+    - kubernetes deployment
+    - helm release
+    - continuous deployment
+    maintainers:
+    - name: clem59170
+    name: keel-chart
+    sources:
+    - https://github.com/keel-hq/keel
+    - https://github.com/clem59170/keel
+    urls:
+    - https://github.com/david-garcia-garcia/keel/releases/download/keel-chart-v1.0.0/keel-chart-v1.0.0.tgz
+    version: v1.0.0
   keel-custom:
   - apiVersion: v1
     appVersion: 0.19.1
@@ -22,4 +44,4 @@ entries:
     urls:
     - https://github.com/david-garcia-garcia/keel/releases/download/keel-custom-1.0.5/keel-custom-1.0.5.tgz
     version: 1.0.5
-generated: "2024-11-04T13:48:32.219970839Z"
+generated: "2024-11-04T14:38:24.47545836Z"
