@@ -9,6 +9,7 @@ azure-pipelines.yml
 LICENSE
 readme.md
 serviceaccount/*
+chart/*
 Dockerfile
 Dockerfile.debug
 Dockerfile.aarch64
