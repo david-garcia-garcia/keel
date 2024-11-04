@@ -41,7 +41,7 @@ stages:
         REGISTRY_PWD: $(REGISTRY_PWD)
         REGISTRY_PATH: $(REGISTRY_PATH)
         IMAGE_VERSION: $(Build.SourceBranchName)
-        TESTDIR: $(System.DefaultWorkingDirectory)
+        TESTDIR: '$(System.DefaultWorkingDirectory)/Tests'
     - task: PublishTestResults@2
       name: publish_tests_results
       displayName: 'Publish Test Results'
@@ -49,7 +49,7 @@ stages:
       inputs:
         testResultsFormat: 'JUnit' # 'JUnit' | 'NUnit' | 'VSTest' | 'XUnit' | 'CTest'. Alias: testRunner. Required. Test result format. Default: JUnit.
         testResultsFiles: '**/*.xml' # string. Required. Test results files. Default: **/TEST-*.xml.
-        searchFolder: '$(System.DefaultWorkingDirectory)/NUnit' # string. Search folder. Default: $(System.DefaultWorkingDirectory).
+        searchFolder: '$(System.DefaultWorkingDirectory)/Tests' # string. Search folder. Default: $(System.DefaultWorkingDirectory).
         # mergeTestResults: true
         failTaskOnFailedTests: true
         failTaskOnFailureToPublishResults: true
