@@ -78,7 +78,8 @@ if ($StartContainers) {
 
 if ($RunTests -eq $true) {
     Write-Host "Running tests..."
-    docker compose -f compose.tests.yml up -d --build --quiet
+    docker compose -f compose.tests.yml up -d --build
+    ThrowIfError
     $testResultsFile = Join-Path $TESTDIR "test_results.json"
     $localResultsPath = "./test_results.json"
     $containerName = "keel_tests"
