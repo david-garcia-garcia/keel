@@ -8,6 +8,7 @@
 
 param (
     [switch]$Push = $false,
+    [switch]$RunTests = $false,
     [switch]$StartContainers = $false
 )
 
@@ -61,12 +62,23 @@ if (-not $containerregistry.EndsWith('/')) {
 # Image names
 $Env:IMG_KEEL = "$($containerregistry)keel:$($version)";
 $Env:IMG_KEEL_DEBUG = "$($containerregistry)keel-debug:$($version)";
+$Env:IMG_KEEL_TESTS = "$($containerregistry)keel-tests:$($version)";
 
 docker compose build
 ThrowIfError
 
 if ($StartContainers) {
     docker compose up
+}
+
+if ($RunTests -eq $true) {
+    docker compose -f compose.tests.yml up -d --build
+    $testResultsFile = "/go/src/github.com/keel-hq/keel/test_results.json"
+    $localResultsPath = "./test_results.json"
+    $containerName = "keel_tests"
+    docker exec $containerName sh -c "go test -v `$(go list ./... | grep -v /tests) -cover 2>&1 | go-junit-report > $testResultsFile"
+    docker cp "$($containerName):$($testResultsFile)" $localResultsPath
+    docker compose -f compose.tests.yml down
 }
 
 if ($Push) {

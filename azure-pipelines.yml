@@ -33,6 +33,30 @@ stages:
         REGISTRY_PWD: $(REGISTRY_PWD)
         REGISTRY_PATH: $(REGISTRY_PATH)
         IMAGE_VERSION: $(Build.SourceBranchName)
+    - pwsh: .\build.ps1 -RunTests
+      name: run_tests
+      displayName: 'Run tests'
+      env:
+        REGISTRY_USER: $(REGISTRY_USER)
+        REGISTRY_PWD: $(REGISTRY_PWD)
+        REGISTRY_PATH: $(REGISTRY_PATH)
+        IMAGE_VERSION: $(Build.SourceBranchName)
+    - task: PublishTestResults@2
+      name: publish_tests_results
+      condition: and(not(canceled()), not(contains(variables['Build.SourceVersionMessage'], '[notest]')))
+      inputs:
+        testResultsFormat: 'JUnit' # 'JUnit' | 'NUnit' | 'VSTest' | 'XUnit' | 'CTest'. Alias: testRunner. Required. Test result format. Default: JUnit.
+        testResultsFiles: '**/*.xml' # string. Required. Test results files. Default: **/TEST-*.xml.
+        searchFolder: '$(System.DefaultWorkingDirectory)/NUnit' # string. Search folder. Default: $(System.DefaultWorkingDirectory).
+        # mergeTestResults: true
+        failTaskOnFailedTests: true
+        failTaskOnFailureToPublishResults: true
+        failTaskOnMissingResultsFile: true
+        testRunTitle: Pester
+        # Advanced
+        #buildPlatform: # string. Alias: platform. Build Platform.
+        #buildConfiguration: # string. Alias: configuration. Build Configuration.
+        publishRunAttachments: true
     - pwsh: .\build.ps1 -Push
       name: push_containers
       displayName: 'Push images'
