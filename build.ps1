@@ -16,6 +16,11 @@ $global:ErrorActionPreference = 'Stop'
 
 . .\helpers.ps1
 
+$TESTDIR = $Env:TESTDIR;
+if ([string]::IsNullOrWhiteSpace($TESTDIR)) {
+    $TESTDIR = Get-Location;
+}
+
 # If there is a local environment envsettings
 # file, load it. In pipelines, these are all comming
 # from environment variables.
@@ -72,11 +77,14 @@ if ($StartContainers) {
 }
 
 if ($RunTests -eq $true) {
-    docker compose -f compose.tests.yml up -d --build
-    $testResultsFile = "/go/src/github.com/keel-hq/keel/test_results.json"
+    Write-Host "Running tests..."
+    docker compose -f compose.tests.yml up -d --build --quiet
+    $testResultsFile = Join-Path $TESTDIR "test_results.json"
     $localResultsPath = "./test_results.json"
     $containerName = "keel_tests"
     docker exec $containerName sh -c "go test -v `$(go list ./... | grep -v /tests) -cover 2>&1 | go-junit-report > $testResultsFile"
+    # Re-Run just to get on-screen results. The test suite is small.
+    docker exec $containerName sh -c "make test"
     docker cp "$($containerName):$($testResultsFile)" $localResultsPath
     docker compose -f compose.tests.yml down
 }
