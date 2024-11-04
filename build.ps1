@@ -81,7 +81,7 @@ if ($RunTests -eq $true) {
     docker compose -f compose.tests.yml up -d --build
     ThrowIfError
     $testResultsFile = Join-Path $TESTDIR "test_results.json"
-    $localResultsPath = "./test_results.json"
+    $localResultsPath = "./test_results.xml"
     $containerName = "keel_tests"
     docker exec $containerName sh -c "go test -v `$(go list ./... | grep -v /tests) -cover 2>&1 | go-junit-report > $testResultsFile"
     # Re-Run just to get on-screen results. The test suite is small.
