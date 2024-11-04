@@ -2,7 +2,7 @@ name: Release Charts
 on:
   push:
     tags:
-      - "VC*"
+      - "chart-*"
 jobs:
   release:
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
@@ -23,7 +23,7 @@ jobs:
         uses: azure/setup-helm@v4.2.0
       - name: Extract tag version
         id: get_version
-        run: echo "version=${GITHUB_REF##*/}" >> $GITHUB_ENV
+        run: echo "version=${GITHUB_REF##*/chart-}" >> $GITHUB_ENV
       - name: Update Chart.yaml version
         run: |
           sed -i "s/^version:.*/version: ${GITHUB_ENV_VERSION}/" chart/keel/Chart.yaml
