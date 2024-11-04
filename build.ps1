@@ -83,10 +83,11 @@ if ($RunTests -eq $true) {
     $testResultsFile = "/go/src/github.com/keel-hq/keel/test_results.json"
     $localResultsPath = Join-Path $TESTDIR "test_results.xml"
     $containerName = "keel_tests"
-    docker exec $containerName sh -c "go test -v `$(go list ./... | grep -v /tests) -cover 2>&1 | go-junit-report > $testResultsFile"
-    # Re-Run just to get on-screen results. The test suite is small.
     docker exec $containerName sh -c "make test"
+    # This one is to export the results
+    docker exec $containerName sh -c "go test -v `$(go list ./... | grep -v /tests) -cover 2>&1 | go-junit-report > $testResultsFile"
     docker cp "$($containerName):$($testResultsFile)" $localResultsPath
+    Write-Host "Test results copied to $localResultsPath"
     docker compose -f compose.tests.yml down
 }
 
