@@ -8,7 +8,6 @@ build.ps1
 azure-pipelines.yml
 .gitignore
 .drone.yml
-.helpers.ps1
 readme.md
 serviceaccount/*
 chart/*
